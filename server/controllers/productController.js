@@ -9,10 +9,23 @@ export const createProduct = asyncHandler(async (req, res) => {
   });
 });
 export const getAllProducts = asyncHandler(async (req, res) => {
-  res.send("Get all products");
+  const products = await Product.find();
+  return res.status(200).json({
+    message: "All Products retrieved succesfully",
+    products,
+  });
 });
 export const getSingleProduct = asyncHandler(async (req, res) => {
-  res.send("Get detail product");
+  const productId = req.params.id;
+  const product = await Product.findById(productId);
+  if (!product) {
+    res.status(404);
+    throw new Error("No products found");
+  }
+  return res.status(200).json({
+    message: "Product retrieved successfully",
+    product,
+  });
 });
 export const updateProduct = asyncHandler(async (req, res) => {
   res.send("Update product");
