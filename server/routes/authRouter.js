@@ -1,5 +1,11 @@
 import express from "express";
-import { registerUser, loginUser } from "./../controllers/authController.js";
+import {
+  registerUser,
+  loginUser,
+  getCurrentUser,
+  logoutUser,
+} from "./../controllers/authController.js";
+import { protectedMiddleware } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -7,12 +13,8 @@ router.post("/register", registerUser);
 
 router.post("/login", loginUser);
 
-router.get("/logout", (req, res) => {
-  res.send("Logout");
-});
+router.get("/logout", protectedMiddleware, logoutUser);
 
-router.get("/getuser", (req, res) => {
-  res.send("Get Current User");
-});
+router.get("/getuser", protectedMiddleware, getCurrentUser);
 
 export default router;

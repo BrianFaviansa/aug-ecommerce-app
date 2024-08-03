@@ -11,10 +11,9 @@ export const errorHandler = (err, req, res, next) => {
     message = Object.values(err.errors)
       .map((item) => item.message)
       .join(",");
+    resStatusCode = 400;
   }
-  resStatusCode = 400;
   res.status(resStatusCode).json({
     message,
-    // stack: err.stack,
   });
 };
