@@ -19,3 +19,12 @@ export const protectedMiddleware = asyncHandler(async (req, res, next) => {
     throw new Error("Not authorized, no token found");
   }
 });
+
+export const ownerMiddleware = (req, res, next) => {
+  if (req.user && req.user.role === "owner") {
+    next();
+  } else {
+    res.status(403);
+    throw new Error("Forbidden");
+  }
+};

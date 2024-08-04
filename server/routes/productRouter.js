@@ -1,6 +1,9 @@
 import express from "express";
 
-import { protectedMiddleware } from "../middlewares/authMiddleware.js";
+import {
+  protectedMiddleware,
+  ownerMiddleware,
+} from "../middlewares/authMiddleware.js";
 import {
   createProduct,
   getAllProducts,
@@ -13,10 +16,10 @@ import {
 const router = express.Router();
 
 router.get("/", getAllProducts);
-router.post("/", createProduct);
+router.post("/", protectedMiddleware, ownerMiddleware, createProduct);
 router.post("/file-upload", fileUpload);
 router.get("/:id", getSingleProduct);
-router.put("/:id", updateProduct);
-router.delete("/:id", deleteProduct);
+router.put("/:id", protectedMiddleware, ownerMiddleware, updateProduct);
+router.delete("/:id", protectedMiddleware, ownerMiddleware, deleteProduct);
 
 export default router;
