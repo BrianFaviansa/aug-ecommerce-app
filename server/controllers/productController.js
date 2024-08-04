@@ -9,10 +9,37 @@ export const createProduct = asyncHandler(async (req, res) => {
   });
 });
 export const getAllProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find();
+  const { page = 1, limit = 5, name, ...filters } = req.query;
+  const skip = (Number(page) - 1) * Number(limit);
+
+  let query = {};
+  if (name) {
+    query.name = { $regex: name, $options: "i" };
+  } else {
+    query = filters;
+  }
+
+  const productsQuery = Product.find(query).skip(skip).limit(Number(limit));
+
+  const [products, totalProducts] = await Promise.all([
+    productsQuery.exec(),
+    Product.countDocuments(query),
+  ]);
+
+  if (skip >= totalProducts) {
+    return res.status(404).json({
+      message: "This page doesn't exist",
+    });
+  }
+
   return res.status(200).json({
-    message: "All Products retrieved succesfully",
+    message: "Products retrieved successfully",
     products,
+    pagination: {
+      currentPage: Number(page),
+      totalPages: Math.ceil(totalProducts / Number(limit)),
+      totalProducts,
+    },
   });
 });
 export const getSingleProduct = asyncHandler(async (req, res) => {
