@@ -28,10 +28,22 @@ export const getSingleProduct = asyncHandler(async (req, res) => {
   });
 });
 export const updateProduct = asyncHandler(async (req, res) => {
-  res.send("Update product");
+  const productId = req.params.id;
+  const updateProduct = await Product.findByIdAndUpdate(productId, req.body, {
+    runValidators: false,
+    new: true,
+  });
+  return res.status(201).json({
+    message: "Product updated successfully",
+    product: updateProduct,
+  });
 });
 export const deleteProduct = asyncHandler(async (req, res) => {
-  res.send("Delete product");
+  const productId = req.params.id;
+  await Product.findByIdAndDelete(productId);
+  return res.status(200).json({
+    message: "Product deleted successfully",
+  });
 });
 export const fileUpload = asyncHandler(async (req, res) => {
   res.send("File Uplaod product");
