@@ -22,19 +22,19 @@ const orderSchema = new Schema({
     default: "pending",
   },
   firstName: {
-    tpye: String,
+    type: String,
     required: [true, "First Name is required"],
   },
   lastName: {
-    tpye: String,
+    type: String,
     required: [true, "Last Name is required"],
   },
   phone: {
-    tpye: String,
+    type: String,
     required: [true, "Phone Number is required"],
   },
   email: {
-    tpye: String,
+    type: String,
     required: [true, "Email is required"],
   },
 });
