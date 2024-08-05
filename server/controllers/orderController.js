@@ -4,7 +4,7 @@ import Order from "../models/orderModel.js";
 
 export const createOrder = asyncHandler(async (req, res) => {
   const { email, firstName, lastName, phone, cartItem } = req.body;
-  if (!cartItem || cartItem.length < 1) {
+  if (!cartItem?.length) {
     res.status(400);
     throw new Error("Your cart is empty");
   }
