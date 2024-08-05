@@ -10,40 +10,37 @@ export const createProduct = asyncHandler(async (req, res) => {
 });
 
 export const getAllProducts = asyncHandler(async (req, res) => {
-  const queryObject = { ...req.query };
-  const excludeField = ["page", "limit", "name"];
-  excludeField.forEach((element) => {
-    delete queryObject[element];
-  });
+  const { page = 1, limit = 5, name, ...filters } = req.query;
+  const skip = (Number(page) - 1) * Number(limit);
 
-  let query;
-
-  if (req.query.name) {
-    query = Product.find({ name: { $regex: req.query.name, $options: "i" } });
+  let query = {};
+  if (name) {
+    query.name = { $regex: name, $options: "i" };
   } else {
-    query = Product.find(queryObject);
+    query = filters;
   }
 
-  //* pagination
-  const page = req.query.page * 1 || 1;
-  const limitData = req.query.limit * 1 || 5;
-  const skipData = (page - 1) * limitData;
+  const productsQuery = Product.find(query).skip(skip).limit(Number(limit));
 
-  query = query.skip(skipData).limit(limitData);
-  let countProducts = await Product.countDocuments();
-  if (req.query.page) {
-    if (skipData >= countProducts) {
-      res.status(404);
-      throw new Error("This page doesn't exist");
-    }
+  const [products, totalProducts] = await Promise.all([
+    productsQuery.exec(),
+    Product.countDocuments(query),
+  ]);
+
+  if (skip >= totalProducts) {
+    return res.status(404).json({
+      message: "This page doesn't exist",
+    });
   }
-
-  const products = await query;
 
   return res.status(200).json({
-    message: "Products retrieved succesfully",
+    message: "Products retrieved successfully",
     products,
-    count: countProducts,
+    pagination: {
+      currentPage: Number(page),
+      totalPages: Math.ceil(totalProducts / Number(limit)),
+      totalProducts,
+    },
   });
 });
 export const getSingleProduct = asyncHandler(async (req, res) => {
