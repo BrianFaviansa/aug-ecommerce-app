@@ -16,7 +16,7 @@ import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 
 //* Express App Init
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000;
 
 //* Connect to DB using mongoose
 mongoose
