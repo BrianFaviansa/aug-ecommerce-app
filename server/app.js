@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import ExpressMongoSanitize from "express-mongo-sanitize";
+import { v2 as cloudinary } from "cloudinary";
 
 dotenv.config();
 
@@ -17,6 +18,13 @@ import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 //* Express App Init
 const app = express();
 const port = 3000;
+
+//* Cloudinary Config
+cloudinary.config({ 
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
+  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 //* Connect to DB using mongoose
 mongoose
@@ -38,8 +46,8 @@ app.use(express.static("./public"));
 
 //* Routes
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/product", productRouter);
-app.use("/api/v1/order", orderRouter);
+app.use("/api/v1/products", productRouter);
+app.use("/api/v1/orders", orderRouter);
 
 //* Error Handler
 app.use(notFound);

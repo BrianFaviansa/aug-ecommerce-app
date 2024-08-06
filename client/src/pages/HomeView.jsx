@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import axios from "axios";
 
-const HomeView = () => {
-  return (
-    <div>HomeView</div>
-  )
+try {
+  const response = await axios.get("/api/v1/products");
+  console.log(response.data);
+} catch (error) {
+  console.log(error);
 }
 
-export default HomeView
+const HomeView = () => {
+  return <div>HomeView</div>;
+};
+
+export default HomeView;
