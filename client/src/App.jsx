@@ -1,23 +1,58 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 //* Component
-import AboutView from './pages/AboutView';
-import CartView from './pages/CartView';
-import HomeView from './pages/HomeView';
-import OrderView from './pages/OrderView';
-import ProductView from './pages/ProductView';
-import LoginView from './pages/auth/LoginView';
-import RegisterView from './pages/auth/RegisterView';
+import AboutView from "./pages/AboutView";
+import CartView from "./pages/CartView";
+import HomeView from "./pages/HomeView";
+import OrderView from "./pages/OrderView";
+import ProductView from "./pages/ProductView";
+import LoginView from "./pages/auth/LoginView";
+import RegisterView from "./pages/auth/RegisterView";
 import PublicLayout from "./layouts/PublicLayout";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <PublicLayout />,
+    children: [
+      {
+        index: true,
+        element: <HomeView />,
+      },
+      {
+        path: "products",
+        element: <ProductView />,
+      },
+      {
+        path: "orders",
+        element: <OrderView />,
+      },
+      {
+        path: "cart",
+        element: <CartView />,
+      },
+      {
+        path: "about",
+        element: <AboutView />,
+      },
+      {
+        path: "/products",
+        element: <ProductView />,
+      },
+    ],
+  },
+  {
+    path: "/login",
+    element: <LoginView />,
+  },
+  {
+    path: "/register",
+    element: <RegisterView />,
+  },
+]);
+
 function App() {
-  return (
-    <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      <button className="btn btn-active btn-primary">Primary</button>
-      <button className="btn btn-active btn-secondary">Secondary</button>
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
