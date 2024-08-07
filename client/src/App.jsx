@@ -13,6 +13,7 @@ import DetailProduct from "./pages/DetailProduct";
 
 //* Loader
 import { loader as HomeLoader } from "./pages/HomeView";
+import { loader as ProductLoader } from "./pages/ProductView";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
       {
         path: "products",
         element: <ProductView />,
+        loader: ProductLoader,
       },
       {
         path: "products/:id",
