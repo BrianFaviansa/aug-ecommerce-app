@@ -15,32 +15,26 @@ export const getAllProducts = asyncHandler(async (req, res) => {
   const { page = 1, limit = 5, name, ...filters } = req.query;
   const skip = (Number(page) - 1) * Number(limit);
 
-  let query = {};
+  let query = { ...filters }; // Start with all filters
   if (name) {
     query.name = { $regex: name, $options: "i" };
-  } else {
-    query = filters;
   }
 
-  const productsQuery = Product.find(query).skip(skip).limit(Number(limit));
-
   const [products, totalProducts] = await Promise.all([
-    productsQuery.exec(),
+    Product.find(query).skip(skip).limit(Number(limit)),
     Product.countDocuments(query),
   ]);
 
-  if (skip >= totalProducts) {
-    return res.status(404).json({
-      message: "This page doesn't exist",
-    });
-  }
+  const totalPages = Math.ceil(totalProducts / Number(limit));
 
   return res.status(200).json({
-    message: "Products retrieved successfully",
+    message: products.length
+      ? "Products retrieved successfully"
+      : "No products found",
     products,
     pagination: {
       currentPage: Number(page),
-      totalPages: Math.ceil(totalProducts / Number(limit)),
+      totalPages,
       totalProducts,
     },
   });
