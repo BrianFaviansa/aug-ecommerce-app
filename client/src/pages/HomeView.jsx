@@ -1,24 +1,16 @@
-import React, { useEffect, useState } from "react";
-import customAPI from "../api";
+import React from "react";
 import CardProduct from "../components/CardProduct";
+import customAPI from "../api";
+import { useLoaderData } from "react-router-dom";
+
+export const loader = async ({ request }) => {
+  const { data } = await customAPI.get("/products");
+  const products = data.products;
+  return { products };
+};
 
 const HomeView = () => {
-  const [products, setProducts] = useState([]);
-
-  const getProducts = async () => {
-    try {
-      const { data } = await customAPI.get("/products?limit=3");
-      setProducts(data.products);
-      console.log(data.products);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getProducts();
-  }, []);
-
+  const { products } = useLoaderData();
   return (
     <>
       <div className="border-b border-primary pb-5">
@@ -26,7 +18,7 @@ const HomeView = () => {
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7 mt-6">
         {products?.map((product) => (
-          <CardProduct key={product._id} product={product}/>
+          <CardProduct key={product._id} product={product} />
         ))}
       </div>
     </>
