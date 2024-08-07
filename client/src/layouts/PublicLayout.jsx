@@ -7,7 +7,7 @@ const PublicLayout = () => {
   return (
     <>
       <Navbar />
-      <main className="mx-auto max-w-6xl px-8 py-20 min-h-[87.5vh]">
+      <main className="mx-auto max-w-7xl px-8 py-9 mb-20 min-h-[80vh]">
         <Outlet />
       </main>
       <Footer />
