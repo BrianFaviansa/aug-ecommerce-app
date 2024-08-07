@@ -26,7 +26,7 @@ const HomeView = () => {
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7 mt-6">
         {products?.map((product) => (
-          <CardProduct product={product}/>
+          <CardProduct key={product._id} product={product}/>
         ))}
       </div>
     </>

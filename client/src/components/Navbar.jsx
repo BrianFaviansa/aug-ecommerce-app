@@ -3,24 +3,6 @@ import { BsCart3 } from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
 import NavList from "./NavList";
 
-const links = [
-  {
-    id: 1,
-    url: "about",
-    text: "About",
-  },
-  {
-    id: 2,
-    url: "products",
-    text: "Products",
-  },
-  {
-    id: 3,
-    url: "orders",
-    text: "Orders",
-  },
-];
-
 const Navbar = () => {
   return (
     <div className="navbar bg-base-100">

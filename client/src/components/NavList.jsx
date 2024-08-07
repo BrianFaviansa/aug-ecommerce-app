@@ -4,16 +4,21 @@ import { NavLink } from "react-router-dom";
 const links = [
   {
     id: 1,
+    url: "",
+    text: "Home",
+  },
+  {
+    id: 2,
     url: "about",
     text: "About",
   },
   {
-    id: 2,
+    id: 3,
     url: "products",
     text: "Products",
   },
   {
-    id: 3,
+    id: 4,
     url: "orders",
     text: "Orders",
   },
