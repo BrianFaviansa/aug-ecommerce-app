@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import FormAuth from "../../components/Forms/FormAuth";
 
 const LoginView = () => {
   return (
-    <div>LoginView</div>
-  )
-}
+    <main>
+      <FormAuth />
+    </main>
+  );
+};
 
-export default LoginView
+export default LoginView;
