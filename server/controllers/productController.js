@@ -12,10 +12,10 @@ export const createProduct = asyncHandler(async (req, res) => {
 });
 
 export const getAllProducts = asyncHandler(async (req, res) => {
-  const { page = 1, limit = 5, name, ...filters } = req.query;
+  const { page = 1, limit = 8, name, ...filters } = req.query;
   const skip = (Number(page) - 1) * Number(limit);
 
-  let query = { ...filters }; // Start with all filters
+  let query = { ...filters };
   if (name) {
     query.name = { $regex: name, $options: "i" };
   }
@@ -73,7 +73,7 @@ export const fileUpload = asyncHandler(async (req, res) => {
   const stream = cloudinary.uploader.upload_stream(
     {
       folder: "uploads",
-      allowed_formats: ["jpg", "png"],
+      allowed_formats: ["jpg", "jpeg", "png"],
     },
     function (err, result) {
       if (err) {
